@@ -1,5 +1,6 @@
 ﻿using Domain.Configurations;
 using Domain.Models;
+using System.Data.Common;
 using System.Data.Entity;
 using System.Data.Entity.ModelConfiguration.Conventions;
 
@@ -9,6 +10,10 @@ namespace Repository
     {
         public LivrariaContext()
             : base("name=LivrariaContext")
+        {
+        }
+        public LivrariaContext(DbConnection connection)
+            : base(connection, false)
         {
         }
 

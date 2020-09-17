@@ -73,6 +73,10 @@
     <Compile Include="Migrations\202009170159270_AdicionadoValorPrevistoEQuantidadeDias.designer.cs">
       <DependentUpon>202009170159270_AdicionadoValorPrevistoEQuantidadeDias.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\202009170246323_RemovidoUniqueConstraints.cs" />
+    <Compile Include="Migrations\202009170246323_RemovidoUniqueConstraints.designer.cs">
+      <DependentUpon>202009170246323_RemovidoUniqueConstraints.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
@@ -102,6 +106,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\202009170159270_AdicionadoValorPrevistoEQuantidadeDias.resx">
       <DependentUpon>202009170159270_AdicionadoValorPrevistoEQuantidadeDias.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202009170246323_RemovidoUniqueConstraints.resx">
+      <DependentUpon>202009170246323_RemovidoUniqueConstraints.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

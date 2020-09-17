@@ -1,6 +1,4 @@
 ﻿using Domain.Models;
-using System.ComponentModel.DataAnnotations.Schema;
-using System.Data.Entity.Infrastructure.Annotations;
 using System.Data.Entity.ModelConfiguration;
 
 namespace Domain.Configurations
@@ -11,11 +9,7 @@ namespace Domain.Configurations
         {
             Property(e => e.Id)
                 .IsRequired()
-                .HasMaxLength(Entidade.IdLength)
-                .HasColumnAnnotation(
-                    nameof(IEntidade.Id), 
-                    new IndexAnnotation(new[] { new IndexAttribute(nameof(IEntidade.Id)) { IsUnique = true } })
-                );
+                .HasMaxLength(Entidade.IdLength);
 
             Property(e => e.IdLivro)
                 .IsRequired()
