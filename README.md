@@ -2,6 +2,7 @@
 [Entrevista] SoftDesign
 
 ### Ferramentas utilizadas
+#### Backend
 - Asp.Net MVC 4.8
 - Entity Framework 6.4.4
 - MSTest
@@ -10,7 +11,13 @@
 - LinqKit (para permitir utilização de rules e projections reutilizáveis)
 - Enflow (para criação de rules e projections reutilizáveis e workflows)
 
-Obs.: Como eu trabalho durante o dia, tive apenas algumas horas nas noites para o desenvolvimento e por isso o método de encriptação e a injeção de dependência foram apenas simulados ou prototipados, também não foram feito teste para todo o código para que desse tempo de construir um exemplo mais completo, e por último também não foi adicionado interface por limitação de tempo (preferi dar mais importância ao backend já que a vaga é para backend developer). Mas se acharem interessante eu posso desenvolver um mvp em react ou svelte utilizando tailwindcss.
+#### Frontend
+- React (js)
+- Tailwindcss
+
+Obs1.: Como eu trabalho durante o dia, tive apenas algumas horas nas noites para o desenvolvimento e por isso o método de encriptação e a injeção de dependência foram apenas simulados ou prototipados, também não foram feito teste para todo o código para que desse tempo de construir um exemplo mais completo.
+
+Obs2.: O frontend possui apenas a tela de login e a de listar livros, não irei continuar o restante pois preciso dormir xD
 
 
 ### Conceitos utilizados
