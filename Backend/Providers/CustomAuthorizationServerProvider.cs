@@ -30,7 +30,7 @@ namespace Backend.Providers
 
         public override Task GrantResourceOwnerCredentials(OAuthGrantResourceOwnerCredentialsContext context)
         {
-            context.OwinContext.Response.Headers.Add("Access-Control-Allow-Origin", new string[] { "*" }); //apenas para uso em dev
+            //context.OwinContext.Response.Headers.Add("Access-Control-Allow-Origin", new string[] { "*" }); //apenas para uso em dev
             var usuario = Autenticar(context.UserName, context.Password);
 
             if (usuario != default)

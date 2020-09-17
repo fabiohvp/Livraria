@@ -1,11 +1,12 @@
 ﻿using Backend.Providers;
-using Microsoft.AspNet.Identity;
 using Microsoft.Owin;
 using Microsoft.Owin.Security.OAuth;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
 using Newtonsoft.Json.Serialization;
 using Owin;
+using Repository;
+using Repository.Migrations;
 using System;
 using System.Linq;
 using System.Net.Http.Formatting;
@@ -21,6 +22,8 @@ namespace Backend
 
         public void Configuration(IAppBuilder app)
         {
+            app.UseCors(Microsoft.Owin.Cors.CorsOptions.AllowAll); //apenas para agilizar
+
             var config = new HttpConfiguration();
             // Web API routes
             config.MapHttpAttributeRoutes();
@@ -33,9 +36,14 @@ namespace Backend
 
             ConfigureOAuth(app);
 
-            //GlobalConfiguration.Configure(WebApiConfig.Register);
             app.UseWebApi(config);
             ConfigureJSON(config);
+
+            using (var context = new LivrariaContext())
+            {
+                var migrationConfiguration = new Configuration();
+                migrationConfiguration.RunSeed(context);
+            }
         }
 
         private static void ConfigureJSON(HttpConfiguration config)
@@ -69,7 +77,7 @@ namespace Backend
             };
 
             //use a cookie to temporarily store information about a user logging in with a third party login provider
-            app.UseExternalSignInCookie(DefaultAuthenticationTypes.ExternalCookie);
+            //app.UseExternalSignInCookie(DefaultAuthenticationTypes.ExternalCookie);
 
             // Token Generation
             app.UseOAuthAuthorizationServer(OAuthServerOptions);
