@@ -10,6 +10,7 @@ namespace Domain.Models
         public string Nome { get; set; }
         public short Ano { get; set; }
         public short Volume { get; set; }
+        public decimal ValorAluguel { get; set; }
 
         public virtual ICollection<Aluguel> Alugueis { get; set; } = new HashSet<Aluguel>();
     }

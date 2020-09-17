@@ -1,6 +1,8 @@
 ﻿using Backend.Models.Aluguel;
 using Domain.Models;
+using LinqKit;
 using Repository;
+using Services.Projections.Alugueis;
 using Services.Workflows.Alugueis;
 using System.Collections.Generic;
 using System.Data.Entity;
@@ -21,17 +23,13 @@ namespace Backend.Controllers
         // GET api/<controller>
         public async Task<IEnumerable<object>> Get(int page = 0, int pageSize = 10)
         {
+            var detalhesLivroProjection = new DetalhesAluguelProjection()
+                .Predicate;
+
             var linhas = await Repository
-                .Recuperar<Aluguel>()
-                .AsNoTracking()
-                .Select(o => new
-                {
-                    o.Id,
-                    Livro = o.Livro.Nome,
-                    Usuario = o.Usuario.Nome,
-                    o.DataLocacao,
-                    o.DataDevolucao
-                })
+                .RecuperarNoTracking<Aluguel>()
+                .AsExpandable()
+                .Select(detalhesLivroProjection)
                 .OrderByDescending(o => o.DataLocacao)
                 .Skip(page)
                 .Take(pageSize)
@@ -43,8 +41,13 @@ namespace Backend.Controllers
         // GET api/<controller>/5
         public async Task<object> Get(string id)
         {
+            var detalhesLivroProjection = new DetalhesAluguelProjection()
+                .Predicate;
+
             var aluguel = await Repository
-                .Recuperar<Aluguel>()
+                .RecuperarNoTracking<Aluguel>()
+                .AsExpandable()
+                .Select(detalhesLivroProjection)
                 .FirstAsync(o => o.Id == id);
 
             return aluguel;
@@ -58,21 +61,26 @@ namespace Backend.Controllers
             {
                 IdLivro = model.IdLivro,
                 IdUsuario = IdUsuario,
+                QuantidadeDias = model.QuantidadeDias
+            };
+
+            var workflow = new AlugarWorkflow(Repository);
+            workflow.Execute(aluguel);
+        }
+
+        // POST api/<controller>
+        [Route("api/alugar")]
+        public void Devolver(AlugarViewModel model)
+        {
+            var aluguel = new Aluguel
+            {
+                IdLivro = model.IdLivro,
+                IdUsuario = IdUsuario,
                 ValorPago = model.ValorPago,
             };
 
-            var alugarWorkflow = new AlugarWorkflow(Repository);
-            alugarWorkflow.Execute(aluguel);
-        }
-
-        // PUT api/<controller>/5
-        public void Put(int id, [FromBody]string value)
-        {
-        }
-
-        // DELETE api/<controller>/5
-        public void Delete(int id)
-        {
+            var workflow = new DevolverWorkflow(Repository);
+            workflow.Execute(aluguel);
         }
     }
 }

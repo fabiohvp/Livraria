@@ -28,7 +28,18 @@ namespace Services.Workflows.Alugueis
                 throw new InvalidOperationException("Este livro está alugado");
             }
 
+            var livro = Repository
+                .RecuperarNoTracking<Livro>()
+                .FirstOrDefault(o => o.Id == candidate.IdLivro);
+
+            if (livro == default)
+            {
+                throw new InvalidOperationException("Livro não encontrado");
+            }
+
             candidate.DataLocacao = DateTime.Now;
+            candidate.ValorPrevisto = livro.ValorAluguel * candidate.QuantidadeDias;
+
             Repository.Inserir(candidate);
             Repository.Salvar();
             return candidate;

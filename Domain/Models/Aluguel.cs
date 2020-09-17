@@ -8,9 +8,11 @@ namespace Domain.Models
         public string IdLivro { get; set; }
         public string IdUsuario { get; set; }
         public decimal ValorPago { get; set; }
+        public decimal ValorPrevisto { get; set; }
 
         public DateTime DataLocacao { get; set; }
         public DateTime? DataDevolucao { get; set; }
+        public int QuantidadeDias { get; set; }
 
         public virtual Livro Livro { get; set; }
         public virtual Usuario Usuario { get; set; }

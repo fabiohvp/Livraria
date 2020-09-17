@@ -9,19 +9,19 @@ namespace Services.Projections.Usuarios
     {
         public Expression<Func<Usuario, Projection>> Predicate => o => new Projection
         {
+            Email = o.Email,
             Id = o.Id,
             IdUsuarioCadastrador = o.IdUsuarioCadastrador,
             Nome = o.Nome,
-            Email = o.Email,
             Permissao = o.Permissao
         };
 
         public class Projection
         {
+            public string Email { get; set; }
             public string Id { get; set; }
             public string IdUsuarioCadastrador { get; set; }
             public string Nome { get; set; }
-            public string Email { get; set; }
             public Permissao Permissao { get; set; }
         }
     }

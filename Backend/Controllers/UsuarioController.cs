@@ -27,8 +27,7 @@ namespace Backend.Controllers
                 .Predicate;
 
             var linhas = await Repository
-                .Recuperar<Usuario>()
-                .AsNoTracking()
+                .RecuperarNoTracking<Usuario>()
                 .Select(detalhesUsuarioProjection)
                 .OrderBy(o => o.Nome)
                 .Skip(page)
@@ -46,7 +45,7 @@ namespace Backend.Controllers
                 .Predicate;
 
             var linha = await Repository
-                .Recuperar<Usuario>()
+                .RecuperarNoTracking<Usuario>()
                 .Select(detalhesUsuarioProjection)
                 .FirstOrDefaultAsync(o => o.Id == id);
 

@@ -1,8 +1,8 @@
 ﻿using Domain.Models;
 using System;
 using System.Data.Entity;
+using System.Data.Entity.Infrastructure;
 using System.Data.Entity.Migrations;
-using System.Linq;
 
 namespace Repository
 {
@@ -15,10 +15,16 @@ namespace Repository
             Context = context;
         }
 
-        public IQueryable<T> Recuperar<T>()
+        public DbSet<T> Recuperar<T>()
             where T : class, IEntidade
         {
-            return Context.Set<T>().AsQueryable();
+            return Context.Set<T>();
+        }
+
+        public DbQuery<T> RecuperarNoTracking<T>()
+            where T : class, IEntidade
+        {
+            return Context.Set<T>().AsNoTracking();
         }
 
         public void Inserir<T>(T obj)

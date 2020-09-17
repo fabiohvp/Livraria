@@ -11,6 +11,7 @@ namespace Services.Workflows.Livros
             : base(repository)
         {
         }
+
         protected override Livro ExecuteWorkflow(Livro candidate)
         {
             var original = Repository

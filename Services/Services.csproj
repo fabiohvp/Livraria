@@ -55,6 +55,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Exceptions\StateRuleException.cs" />
+    <Compile Include="Projections\Alugueis\DetalhesAluguelProjection.cs" />
     <Compile Include="Projections\IProjection.cs" />
     <Compile Include="Projections\Livros\DetalhesLivroProjection.cs" />
     <Compile Include="Projections\Usuarios\DetalhesUsuarioProjection.cs" />
@@ -72,8 +73,6 @@
     <Compile Include="Workflows\Usuarios\EditarWorkflow.cs" />
     <Compile Include="Workflows\Usuarios\InserirWorkflow.cs" />
     <Compile Include="Workflows\Usuarios\RemoverWorkflow.cs" />
-    <Compile Include="Workflows\Usuarios\ValidarPermissaoWorkflow.cs" />
-    <Compile Include="Workflows\Usuarios\ValidarUsuarioWorkflow.cs" />
     <Compile Include="Workflows\Workflow.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -94,8 +93,6 @@
     <None Include="App.config" />
     <None Include="packages.config" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Projections\Alugueis\" />
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

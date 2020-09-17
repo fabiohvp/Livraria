@@ -1,6 +1,7 @@
 ﻿using Domain.Models;
 using Repository;
-using System.Linq;
+using Services.Rules;
+using System.Security.Authentication;
 
 namespace Services.Workflows.Usuarios
 {
@@ -13,14 +14,11 @@ namespace Services.Workflows.Usuarios
 
         protected override Usuario ExecuteWorkflow(Usuario candidate)
         {
-            var jaExiste = Repository
-                .Recuperar<Usuario>()
-                .Any(o => o.Id == candidate.Id);
+            var emailRule = new EmailRule();
 
-            if (jaExiste)
+            if (!emailRule.IsSatisfied(candidate.Email))
             {
-                var editarWorkflow = new EditarWorkflow(Repository);
-                return editarWorkflow.Execute(candidate);
+                throw new InvalidCredentialException("E-mail inválido");
             }
 
             Repository.Inserir(candidate);

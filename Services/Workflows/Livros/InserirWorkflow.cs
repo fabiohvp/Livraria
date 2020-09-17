@@ -17,12 +17,6 @@ namespace Services.Workflows.Livros
                 .Recuperar<Livro>()
                 .Any(o => o.Id == candidate.Id);
 
-            if (jaExiste)
-            {
-                var editarWorkflow = new EditarWorkflow(Repository);
-                return editarWorkflow.Execute(candidate);
-            }
-
             Repository.Inserir(candidate);
             Repository.Salvar();
             return candidate;
