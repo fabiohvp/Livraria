@@ -38,7 +38,9 @@ namespace Services.Workflows.Alugueis
             }
 
             candidate.DataLocacao = DateTime.Now;
-            candidate.ValorPrevisto = livro.ValorAluguel * candidate.QuantidadeDias;
+
+            var calcularValorPrevistoWorkflow = new CalcularValorPrevistoWorkflow(Repository, livro);
+            candidate.ValorPrevisto = calcularValorPrevistoWorkflow.Execute(candidate);
 
             Repository.Inserir(candidate);
             Repository.Salvar();

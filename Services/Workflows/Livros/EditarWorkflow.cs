@@ -23,7 +23,10 @@ namespace Services.Workflows.Livros
                 throw new InvalidOperationException("Livro não pode ser alterado pois não existe");
             }
 
+            original.Ano = candidate.Ano;
+            original.Autor = candidate.Autor;
             original.Nome = candidate.Nome;
+            original.Volume = candidate.Volume;
 
             Repository.Editar(candidate);
             Repository.Salvar();

@@ -16,33 +16,37 @@ namespace Services.Workflows.Alugueis
         {
             var original = Repository
                 .Recuperar<Aluguel>()
-                .FirstOrDefault(o => o.Id == candidate.Id && !o.DataDevolucao.HasValue);
+                .FirstOrDefault(o => o.IdLivro == candidate.IdLivro && !o.DataDevolucao.HasValue);
 
             if (original == default)
             {
                 throw new InvalidOperationException("Não há locação em aberto para este livro");
             }
 
-            var totalPrevisto = original.ValorPrevisto;
-            var totalPago = candidate.ValorPago + original.ValorPago;
-            var diasEmAtraso = original.DataLocacao.Date.AddDays(original.QuantidadeDias).Subtract(DateTime.Today).TotalDays;
+            var totalPago = original.ValorPago + candidate.ValorPago; //valor pago na locação + valor pago na devolução
+            candidate.QuantidadeDias = original.QuantidadeDias + (int)Math.Floor(DateTime.Today.Subtract(original.DataLocacao.Date.AddDays(original.QuantidadeDias)).TotalDays); //quantidadeDias + dias em atraso
 
-            if (diasEmAtraso > 0)
-            {
-                totalPrevisto += ((decimal)diasEmAtraso * original.Livro.ValorAluguel);
+            var calcularValorPrevistoWorkflow = new CalcularValorPrevistoWorkflow(Repository, original.Livro);
+            var valorPrevisto = calcularValorPrevistoWorkflow.Execute(candidate);
+
+            if (totalPago < valorPrevisto)
+            { 
+                throw new PagamentoInsuficienteException($"O total pago foi de {totalPago}, porém a dívida é de {original.ValorPrevisto}, houve atraso de {candidate.QuantidadeDias - original.QuantidadeDias} dias");
             }
 
-            if (totalPago < totalPrevisto)
-            {
-                throw new InvalidOperationException($"O total pago foi de {totalPago}, porém a dívida é de {original.ValorPrevisto}, houve atraso de {diasEmAtraso} dias");
-            }
-
+            original.QuantidadeDias = candidate.QuantidadeDias;
             original.DataDevolucao = DateTime.Now;
             original.ValorPago = totalPago;
 
-            Repository.Inserir(candidate);
+            Repository.Editar(original);
             Repository.Salvar();
-            return candidate;
+            return original;
+        }
+
+        public class PagamentoInsuficienteException : Exception
+        {
+            public PagamentoInsuficienteException(string message)
+                : base(message) { }
         }
     }
 }

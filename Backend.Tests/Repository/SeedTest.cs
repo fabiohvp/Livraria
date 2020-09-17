@@ -1,6 +1,5 @@
 ﻿using Domain.Models;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using Repository;
 using Repository.Migrations;
 using System.Linq;
 
@@ -12,14 +11,10 @@ namespace Backend.Tests.Repository
         [TestMethod]
         public void RunSeed()
         {
-            var context = TestRepository.CreateContext();
-            var configuration = new Configuration();
-            configuration.RunSeed(context);
-
-            var repository = new LivrariaRepository(context);
+            var repository = TestRepository.CreateRepository();
             var usuario = repository
                 .RecuperarNoTracking<Usuario>()
-                .Single(o => o.Email == configuration.Usuario.Email);
+                .Single(o => o.Email == Configuration.EmailAdministrador);
 
             Assert.IsNotNull(usuario);
         }

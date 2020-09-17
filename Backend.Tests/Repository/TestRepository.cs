@@ -1,4 +1,5 @@
 ﻿using Repository;
+using Repository.Migrations;
 
 namespace Backend.Tests.Repository
 {
@@ -8,6 +9,8 @@ namespace Backend.Tests.Repository
         {
             var connection = Effort.DbConnectionFactory.CreateTransient();
             var context = new LivrariaContext(connection);
+            var configuration = new Configuration();
+            configuration.RunSeed(context);
             return context;
         }
 

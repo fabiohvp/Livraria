@@ -3,6 +3,8 @@ using System;
 using System.Data.Entity;
 using System.Data.Entity.Infrastructure;
 using System.Data.Entity.Migrations;
+using System.Data.Entity.Validation;
+using System.Text;
 
 namespace Repository
 {
@@ -55,7 +57,29 @@ namespace Repository
 
         public void Salvar()
         {
-            Context.SaveChanges();
+            try
+            {
+                Context.SaveChanges();
+            }
+            catch (DbEntityValidationException e)
+            {
+                var text = new StringBuilder();
+
+                foreach (var eve in e.EntityValidationErrors)
+                {
+                    text.Append(string.Format("Entity of type \"{0}\" in state \"{1}\" has the following validation errors:" + Environment.NewLine, eve.Entry.Entity.GetType().Name, eve.Entry.State));
+
+                    foreach (var ve in eve.ValidationErrors)
+                    {
+                        text.Append(string.Format("- Property: \"{0}\", Error: \"{1}\"" + Environment.NewLine, ve.PropertyName, ve.ErrorMessage));
+                    }
+                }
+                throw new DbEntityValidationException(text.ToString(), e);
+            }
+            catch
+            {
+                throw;
+            }
         }
 
         public async void SalvarAync()

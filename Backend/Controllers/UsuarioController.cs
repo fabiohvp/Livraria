@@ -19,9 +19,14 @@ namespace Backend.Controllers
         {
         }
 
+        public UsuarioController(IRepository repository)
+            : base(repository) //Para testes unitários
+        {
+        }
+
         // GET api/<controller>
         [Authorize(Roles = nameof(Permissao.Administrador))]
-        public async Task<IEnumerable<object>> Get(int page = 0, int pageSize = 10)
+        public async Task<IEnumerable<DetalhesUsuarioProjection.Projection>> Get(int page = 0, int pageSize = 10)
         {
             var detalhesUsuarioProjection = new DetalhesUsuarioProjection()
                 .Predicate;
@@ -59,14 +64,13 @@ namespace Backend.Controllers
             var candidate = new Usuario
             {
                 Id = model.Id,
-                IdUsuarioCadastrador = IdUsuario,
                 Nome = model.Nome,
                 Email = model.Email,
                 Senha = model.Senha,
                 Permissao = model.Permissao
             };
 
-            var workflow = new InserirWorkflow(Repository);
+            var workflow = new InserirWorkflow(Repository, IdUsuario);
             workflow.Execute(candidate);
         }
 

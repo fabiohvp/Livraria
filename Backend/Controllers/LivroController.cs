@@ -60,14 +60,13 @@ namespace Backend.Controllers
             var candidate = new Livro
             {
                 Id = model.Id,
-                IdUsuarioCadastrador = IdUsuario,
                 Ano = model.Ano,
                 Autor = model.Autor,
                 Nome = model.Nome,
                 Volume = model.Volume
             };
 
-            var workflow = new InserirWorkflow(Repository);
+            var workflow = new InserirWorkflow(Repository, IdUsuario);
             workflow.Execute(candidate);
         }
 
@@ -78,7 +77,6 @@ namespace Backend.Controllers
             var candidate = new Livro
             {
                 Id = model.Id,
-                IdUsuarioCadastrador = IdUsuario,
                 Ano = model.Ano,
                 Autor = model.Autor,
                 Nome = model.Nome,

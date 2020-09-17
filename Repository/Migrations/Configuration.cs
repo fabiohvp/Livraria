@@ -9,14 +9,9 @@
 
     public sealed class Configuration : DbMigrationsConfiguration<LivrariaContext>
     {
-        public Usuario Usuario = new Usuario
-        {
-            IdUsuarioCadastrador = Guid.NewGuid().ToString(),
-            Email = "admin@livraria.com",
-            Nome = "Admin",
-            Permissao = Permissao.Administrador,
-            Senha = "123456".Encriptar()
-        };
+        //isso é apenas para testes, não vai dar tempo de fazer melhor
+        public const string EmailAdministrador = "admin@livraria.com";
+        public static string IdUsuarioCadastrador = Guid.NewGuid().ToString();
 
         public Configuration()
         {
@@ -36,11 +31,20 @@
         public void RunSeed(DbContext context)
         {
             var repository = new LivrariaRepository(context);
-
-            if (!repository.Recuperar<Usuario>().Any(o => o.Email == Usuario.Email))
+            var usuario = new Usuario
             {
-                repository.Inserir(Usuario);
+                IdUsuarioCadastrador = IdUsuarioCadastrador,
+                Email = EmailAdministrador,
+                Nome = "Admin",
+                Permissao = Permissao.Administrador,
+                Senha = "123456".Encriptar()
+            };
+
+            if (!repository.Recuperar<Usuario>().Any(o => o.Email == usuario.Email))
+            {
+                repository.Inserir(usuario);
                 repository.Salvar();
+                IdUsuarioCadastrador = usuario.Id;
             }
         }
     }

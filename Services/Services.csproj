@@ -66,7 +66,7 @@
     <Compile Include="Rules\Usuarios\SenhaRule.cs" />
     <Compile Include="Workflows\Alugueis\AlugarWorkflow.cs" />
     <Compile Include="Workflows\Alugueis\DevolverWorkflow.cs" />
-    <Compile Include="Workflows\Alugueis\ValidarPagamentoWorkflow.cs" />
+    <Compile Include="Workflows\Alugueis\CalcularValorPrevistoWorkflow.cs" />
     <Compile Include="Workflows\Livros\EditarWorkflow.cs" />
     <Compile Include="Workflows\Livros\InserirWorkflow.cs" />
     <Compile Include="Workflows\Livros\RemoverWorkflow.cs" />

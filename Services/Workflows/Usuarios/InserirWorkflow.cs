@@ -7,9 +7,12 @@ namespace Services.Workflows.Usuarios
 {
     public class InserirWorkflow : Workflow<Usuario>
     {
-        public InserirWorkflow(IRepository repository)
+        public readonly string IdUsuarioCadastrador;
+
+        public InserirWorkflow(IRepository repository, string idUsuarioCadastrador)
             : base(repository)
         {
+            IdUsuarioCadastrador = idUsuarioCadastrador;
         }
 
         protected override Usuario ExecuteWorkflow(Usuario candidate)
@@ -21,6 +24,7 @@ namespace Services.Workflows.Usuarios
                 throw new InvalidCredentialException("E-mail inválido");
             }
 
+            candidate.IdUsuarioCadastrador = IdUsuarioCadastrador;
             Repository.Inserir(candidate);
             Repository.Salvar();
             return candidate;
