@@ -17,7 +17,7 @@
 
 Obs1.: Como eu trabalho durante o dia, tive apenas algumas horas nas noites para o desenvolvimento e por isso o método de encriptação e a injeção de dependência foram apenas simulados ou prototipados, também não foram feito teste para todo o código para que desse tempo de construir um exemplo mais completo.
 
-Obs2.: O frontend possui apenas a tela de login e a de listar livros, não irei continuar o restante pois preciso dormir xD
+Obs2.: O frontend possui apenas a tela de login e a de listar livros
 
 
 ### Conceitos utilizados
